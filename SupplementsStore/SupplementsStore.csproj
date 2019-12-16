@@ -184,6 +184,10 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Data\aspnet-SupplementsStore-20191216032907.mdf" />
+    <Content Include="App_Data\aspnet-SupplementsStore-20191216032907_log.ldf">
+      <DependentUpon>aspnet-SupplementsStore-20191216032907.mdf</DependentUpon>
+    </Content>
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
@@ -241,7 +245,6 @@
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="App_Data\" />
     <Folder Include="Views\Article\" />
     <Folder Include="Views\Category\" />
     <Folder Include="Views\Lala\" />

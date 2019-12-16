@@ -12,11 +12,6 @@ namespace SupplementsStore.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
-        public ActionResult Index()
-        {
-            return View();
-        }
-        /*
         // GET: Category
         public ActionResult Index()
         {
@@ -108,6 +103,5 @@ namespace SupplementsStore.Controllers
             db.SaveChanges();
             return RedirectToAction("Index");
         }
-    }*/
     }
-    }
+}
