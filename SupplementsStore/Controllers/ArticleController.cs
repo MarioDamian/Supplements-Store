@@ -25,7 +25,7 @@ namespace SupplementsStore.Controllers
             {
                 offset = (currentPage - 1) * this._perPage;
             }
-            var paginatedArticles = articles.Skip(offset).Take(this._perPage);
+            var paginatedArticles = articles.ToList().OrderBy(a =>a.Rating).Skip(offset).Take(this._perPage);
             if (TempData.ContainsKey("message"))
             {
                 ViewBag.message = TempData["message"].ToString();
