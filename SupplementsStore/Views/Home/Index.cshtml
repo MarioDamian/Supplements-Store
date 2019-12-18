@@ -2,18 +2,28 @@
     ViewBag.Title = "Home Page";
 }
 
-
+<div class="row">
+    <div class="col-xs-12">
+        <div class="jumbotron">
+            <h1 class="font-roboto">@ViewBag.FirstArticle.Title</h1>
+            <p class="truncate font-montserrat">
+                @ViewBag.FirstArticle.Content
+            </p>
+        </div>
+    </div>
+</div>
 
 <div class="row">
-    <div class="col-md-4">
-        <h2>Bine ai venit</h2>
-        <p>
-            Pe aceasta platforma poti gasi suplimente de la toate firmele de renume disponibile pe piata !
-        </p>
-    </div>
-    <div class="col-md-4">
-        <h2>Inregistreaza-te pentru a putea comanda cu usurinta !</h2>
-        
-    </div>
-    
+    @foreach (var article in ViewBag.Articles)
+    {
+        <div class="col-md-6 row-style">
+            <h2 class="font-roboto">@article.Title</h2>
+            <p class="truncate font-montserrat">
+                @article.Content
+            </p>
+
+            <a class="btn btn-sm btn-success" href="/Account/Register/registerLink">Register</a>
+            <a class="btn btn-sm btn-success" href="/Account/Login/loginLink">Log in</a>
+        </div>
+    }
 </div>

@@ -313,3 +313,7 @@ C:\Users\TEST\Desktop\Anul III\Dez Ap Web\Supplements-Store\SupplementsStore\obj
 C:\Users\TEST\Desktop\Anul III\Dez Ap Web\Supplements-Store\SupplementsStore\obj\Debug\SupplementsStore.csproj.CopyComplete
 C:\Users\TEST\Desktop\Anul III\Dez Ap Web\Supplements-Store\SupplementsStore\obj\Debug\SupplementsStore.dll
 C:\Users\TEST\Desktop\Anul III\Dez Ap Web\Supplements-Store\SupplementsStore\obj\Debug\SupplementsStore.pdb
+C:\Users\TEST\Desktop\Anul III\Dez Ap Web\Supplements-Store\SupplementsStore\bin\AntiXssLibrary.dll
+C:\Users\TEST\Desktop\Anul III\Dez Ap Web\Supplements-Store\SupplementsStore\bin\HtmlSanitizationLibrary.dll
+C:\Users\TEST\Desktop\Anul III\Dez Ap Web\Supplements-Store\SupplementsStore\bin\AntiXssLibrary.xml
+C:\Users\TEST\Desktop\Anul III\Dez Ap Web\Supplements-Store\SupplementsStore\bin\HtmlSanitizationLibrary.xml

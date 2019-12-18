@@ -113,7 +113,6 @@ namespace SupplementsStore.Controllers
         [HttpDelete]
         public ActionResult Delete(string id)
         {
-
             ApplicationDbContext context = new ApplicationDbContext();
             var UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
             var user = UserManager.Users.FirstOrDefault(u => u.Id == id);
@@ -129,8 +128,6 @@ namespace SupplementsStore.Controllers
             UserManager.Delete(user);
             return RedirectToAction("Index");
         }
-
-
 
     }
 }

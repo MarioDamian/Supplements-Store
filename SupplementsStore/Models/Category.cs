@@ -15,6 +15,6 @@ namespace SupplementsStore.Models
         [Required(ErrorMessage = "Numele categoriei este obligatoriu!")]
         public string CategoryName { get; set; }
 
-        public virtual ICollection<Article> Articles { get; set; }
+        public virtual ICollection<Article> Article { get; set; }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNet.Identity;
+using Microsoft.Security.Application;
 using SupplementsStore.Models;
 using System;
 using System.Collections.Generic;
@@ -12,31 +13,40 @@ namespace SupplementsStore.Controllers
     public class ArticleController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
+
         private int _perPage = 3;
+
+
+
         // GET: Article
         [Authorize(Roles = "User,Editor,Administrator")]
         public ActionResult Index()
         {
-            var articles = db.Articles.Include("Category").Include("User");
+            var articles = db.Articles.Include("Category").Include("User").OrderBy(a => a.Date);
             var totalItems = articles.Count();
             var currentPage = Convert.ToInt32(Request.Params.Get("page"));
+
             var offset = 0;
+
             if (!currentPage.Equals(0))
             {
                 offset = (currentPage - 1) * this._perPage;
             }
-            var paginatedArticles = articles.ToList().OrderBy(a =>a.Rating).Skip(offset).Take(this._perPage);
+
+            var paginatedArticles = articles.Skip(offset).Take(this._perPage);
+
             if (TempData.ContainsKey("message"))
             {
                 ViewBag.message = TempData["message"].ToString();
             }
+
             ViewBag.perPage = this._perPage;
             ViewBag.total = totalItems;
-            ViewBag.lastPage = Math.Ceiling((float)totalItems /
-            (float)this._perPage);
+            ViewBag.lastPage = Math.Ceiling((float)totalItems / (float)this._perPage);
             ViewBag.Articles = paginatedArticles;
+
             return View();
-        }
+        }
 
         [Authorize(Roles = "User,Editor,Administrator")]
         public ActionResult Show(int id)
@@ -52,7 +62,9 @@ namespace SupplementsStore.Controllers
             ViewBag.esteAdmin = User.IsInRole("Administrator");
             ViewBag.utilizatorCurent = User.Identity.GetUserId();
 
+
             return View(article);
+
         }
 
         [Authorize(Roles = "Editor,Administrator")]
@@ -73,6 +85,7 @@ namespace SupplementsStore.Controllers
 
         [HttpPost]
         [Authorize(Roles = "Editor,Administrator")]
+        [ValidateInput(false)]
         public ActionResult New(Article article)
         {
             article.Categories = GetAllCategories();
@@ -80,6 +93,8 @@ namespace SupplementsStore.Controllers
             {
                 if (ModelState.IsValid)
                 {
+                    // Protect content from XSS
+                    article.Content = Sanitizer.GetSafeHtmlFragment(article.Content);
                     db.Articles.Add(article);
                     db.SaveChanges();
                     TempData["message"] = "Articolul a fost adaugat!";
@@ -103,7 +118,8 @@ namespace SupplementsStore.Controllers
             ViewBag.Article = article;
             article.Categories = GetAllCategories();
 
-            if (article.UserId == User.Identity.GetUserId() || User.IsInRole("Administrator"))
+            if (article.UserId == User.Identity.GetUserId() ||
+                User.IsInRole("Administrator"))
             {
                 return View(article);
             }
@@ -117,6 +133,7 @@ namespace SupplementsStore.Controllers
 
         [HttpPut]
         [Authorize(Roles = "Editor,Administrator")]
+        [ValidateInput(false)]
         public ActionResult Edit(int id, Article requestArticle)
         {
             requestArticle.Categories = GetAllCategories();
@@ -126,14 +143,16 @@ namespace SupplementsStore.Controllers
                 if (ModelState.IsValid)
                 {
                     Article article = db.Articles.Find(id);
-
-                    if (article.UserId == User.Identity.GetUserId() || User.IsInRole("Administrator"))
+                    if (article.UserId == User.Identity.GetUserId() ||
+                        User.IsInRole("Administrator"))
                     {
                         if (TryUpdateModel(article))
                         {
                             article.Title = requestArticle.Title;
+                            // Protect content from XSS
+                            requestArticle.Content = Sanitizer.GetSafeHtmlFragment(requestArticle.Content);
                             article.Content = requestArticle.Content;
-                            article.Rating = requestArticle.Rating;
+                            article.Date = requestArticle.Date;
                             article.CategoryId = requestArticle.CategoryId;
                             db.SaveChanges();
                             TempData["message"] = "Articolul a fost modificat!";
@@ -164,7 +183,8 @@ namespace SupplementsStore.Controllers
         public ActionResult Delete(int id)
         {
             Article article = db.Articles.Find(id);
-            if (article.UserId == User.Identity.GetUserId() || User.IsInRole("Administrator"))
+            if (article.UserId == User.Identity.GetUserId() ||
+                User.IsInRole("Administrator"))
             {
                 db.Articles.Remove(article);
                 db.SaveChanges();

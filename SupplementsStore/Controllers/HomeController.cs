@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SupplementsStore.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -8,21 +9,21 @@ namespace SupplementsStore.Controllers
 {
     public class HomeController : Controller
     {
+        private ApplicationDbContext db = new ApplicationDbContext();
+
+
         public ActionResult Index()
         {
-            return View();
-        }
+            if (Request.IsAuthenticated)
+            {
+                return RedirectToAction("Index", "Article");
+            }
 
-        public ActionResult About()
-        {
-            ViewBag.Message = "Your application description page.";
+            var articles = (from article in db.Articles
+                            select article);
 
-            return View();
-        }
-
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "Your contact page.";
+            ViewBag.FirstArticle = articles.FirstOrDefault();
+            ViewBag.Articles = articles.OrderBy(o => o.Date).Skip(1).Take(2);
 
             return View();
         }
