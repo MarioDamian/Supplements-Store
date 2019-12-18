@@ -20,6 +20,9 @@ namespace SupplementsStore.Models
         [Required (ErrorMessage = "Continutul articolului este obligatoriu")]
         public string Content;
 
+        [DataType(DataType.DateTime, ErrorMessage = "Campul trebuie sa contina data si ora")]
+        public DateTime Date { get; set; }
+
         public int Rating;
 
         [Required(ErrorMessage = "Categoria este obligatorie")]

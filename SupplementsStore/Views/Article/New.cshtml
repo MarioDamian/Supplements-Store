@@ -25,8 +25,6 @@
     @Html.ValidationMessage("Content", "", new { @class = "text-danger" })
     <br /><br />
 
-    @Html.Hidden("Date", DateTime.Now, new { @class = "form-control" })
-
     <label>Selectati categoria</label>
 
     @Html.DropDownListFor(m => m.CategoryId, new SelectList(Model.Categories, "Value", "Text"),
